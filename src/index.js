@@ -11,11 +11,14 @@ function component() {
 	const projectHeading = document.createElement('h1');
 	projectHeading.textContent = 'Projects';
 	leftCol.appendChild(projectHeading);
+	
 	const addProjectButton = document.createElement('button');
 	addProjectButton.textContent = 'Add Project';
 	addProjectButton.addEventListener('click', () => {
+		addProjectButton.hidden = true;
 		// add task
 	});
+
 	leftCol.appendChild(addProjectButton);
 
 	const rightCol = document.createElement('div');
@@ -26,18 +29,22 @@ function component() {
 	todoHeading.textContent = 'Tasks';
 	rightCol.appendChild(todoHeading);
 
-	const table = document.createElement('table');
-	table.id = 'taskTable';
-	rightCol.appendChild(table);
+	const tasks = document.createElement('tasks');
+	tasks.id = 'tasks';
+	rightCol.appendChild(tasks);
 
-	const addToDoButton = document.createElement('button');
-	addToDoButton.textContent = 'Add Task';
-	addToDoButton.addEventListener('click', () => {
+
+	const addTaskButton = document.createElement('button');
+	addTaskButton.id = 'addTask';
+	addTaskButton.textContent = 'Add Task';
+	addTaskButton.addEventListener('click', () => {
+		addTaskButton.hidden = true;
 		// add task
 		console.log('Event');
 		addTask();
 	});
-	rightCol.appendChild(addToDoButton);
+
+	rightCol.appendChild(addTaskButton);
 
 	return main;
 }
@@ -45,27 +52,39 @@ function component() {
 function addTask() {
 	console.log('Function');
 
-	const taskTable = document.getElementById('taskTable');
+	const taskTable = document.getElementById('tasks');
+	const addButton = document.getElementById('addTask');
 
-	const row = document.createElement('tr');
+	const taskContainer = document.createElement('div');
+	taskContainer.classList.add('taskContainer');
+
 	const form = document.createElement('form');
 	const inputName = document.createElement('input');
 	const inputDate = document.createElement('input');
 
 	const submitBtn = document.createElement('button');
 	submitBtn.textContent = 'Submit';
+	submitBtn.addEventListener('click', () => {
+		addButton.hidden = false;
+		// submit form also
+	})
+	
 	const cancelBtn = document.createElement('button');
 	cancelBtn.textContent = 'Cancel';
+	cancelBtn.addEventListener('click', () => {
+		addButton.hidden = false;
+	})
 
 	form.appendChild(inputName);
 	form.appendChild(inputDate);
 	form.appendChild(submitBtn);
 	form.appendChild(cancelBtn);
 
-	row.appendChild(form);
-	taskTable.appendChild(row);
-
+	taskContainer.appendChild(form);
 	console.log('Function2');
+	
+	taskTable.appendChild(taskContainer);
+
 }
 
 function addProject() {
