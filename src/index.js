@@ -11,7 +11,7 @@ function component() {
 	const projectHeading = document.createElement('h1');
 	projectHeading.textContent = 'Projects';
 	leftCol.appendChild(projectHeading);
-	
+
 	const addProjectButton = document.createElement('button');
 	addProjectButton.textContent = 'Add Project';
 	addProjectButton.addEventListener('click', () => {
@@ -32,7 +32,6 @@ function component() {
 	const tasks = document.createElement('tasks');
 	tasks.id = 'tasks';
 	rightCol.appendChild(tasks);
-
 
 	const addTaskButton = document.createElement('button');
 	addTaskButton.id = 'addTask';
@@ -60,20 +59,40 @@ function addTask() {
 
 	const form = document.createElement('form');
 	const inputName = document.createElement('input');
+	inputName.type = 'text';
+	
 	const inputDate = document.createElement('input');
+	inputDate.type = 'date';
+
 
 	const submitBtn = document.createElement('button');
 	submitBtn.textContent = 'Submit';
 	submitBtn.addEventListener('click', () => {
+		taskContainer.innerHTML = '';
+
+		const taskDescription = document.createElement('div');
+		taskDescription.textContent = inputName.value;
+
+		const taskDate = document.createElement('div');
+		taskDate.textContent = inputDate.value;
+
+		const taskDone = document.createElement('input');
+		taskDone.type = "checkbox";
+
+		taskContainer.appendChild(taskDescription);
+		taskContainer.appendChild(taskDate);
+		taskContainer.appendChild(taskDone);
+		
 		addButton.hidden = false;
-		// submit form also
-	})
-	
+
+		return
+	});
+
 	const cancelBtn = document.createElement('button');
 	cancelBtn.textContent = 'Cancel';
 	cancelBtn.addEventListener('click', () => {
 		addButton.hidden = false;
-	})
+	});
 
 	form.appendChild(inputName);
 	form.appendChild(inputDate);
@@ -82,13 +101,8 @@ function addTask() {
 
 	taskContainer.appendChild(form);
 	console.log('Function2');
-	
+
 	taskTable.appendChild(taskContainer);
-
-}
-
-function addProject() {
-	const modal = document.createElement('div');
 }
 
 document.body.appendChild(component());
