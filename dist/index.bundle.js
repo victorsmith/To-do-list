@@ -7,7 +7,7 @@
   \**********************/
 /***/ (() => {
 
-throw new Error("Module parse failed: Identifier 'createTaskContainer' has already been declared (212:9)\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\n| }\n| \n> function createTaskContainer() {\n| \tconst taskTable = document.getElementById('tasks');\n| \tconst addButton = document.getElementById('addTask');");
+throw new Error("Module parse failed: Unexpected token (227:1)\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\n| \t\tconst\n| \t\t// add task\n> \t});\n| \n| \tleftCol.appendChild(addProjectButton);");
 
 /***/ })
 

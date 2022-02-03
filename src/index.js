@@ -64,8 +64,6 @@ function updateUI() {
 	});
 }
 
-
-
 // Create project container
 function createProjectContainer(project) {
 	const projectContainer = document.createElement('div');
@@ -137,7 +135,68 @@ function createTaskContainer(task) {
 	return taskContainer;
 }
 
-// --
+// Creates modal which collects data for the creation of a new project
+function createModal() {
+	const modal = document.createElement('div');
+	modalBody.classList.add('modal-background');
+
+	const modalBody = document.createElement('div');
+	modalBody.classList.add('modal');
+
+	const closeButton = document.createElement('span');
+	closeButton.className.add('close');
+	
+	// Form for project creation modal
+	const form = document.createElement('form');
+	
+	const projectNameInput = document.createElement('input');
+	projectNameInput.id = 'projectNameField';
+	projectNameInput.type = 'text';
+	form.appendChild(projectNameInput);
+	
+	const projectDescriptionInput = document.createElement('input');
+	projectDescriptionInput.id = 'projectDescription';
+	projectDescriptionInput.type = 'text';
+	projectDescriptionInput.appendChild(submitBtn);
+	
+	const submitBtn = document.createElement('button');
+	submitBtn.textContent = 'Create';
+	form.appendChild(submitBtn);
+	
+	const cancelBtn = document.createElement('button');
+	cancelBtn.textContent = 'Cancel';
+	form.appendChild(cancelBtn);
+	
+	modalBody.appendChild(closeButton);
+	modal.appendChild(modalBody);
+
+	return modal;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -- Not done are below this line
 
 function initUI() {
 	const main = document.createElement('div');
@@ -156,10 +215,14 @@ function initUI() {
 	projects.id = 'projects';
 	leftCol.appendChild(projects);
 
+	const modal = createModal();
+
 	const addProjectButton = document.createElement('button');
 	addProjectButton.textContent = 'Add Project';
 	addProjectButton.addEventListener('click', () => {
 		addProjectButton.hidden = true;
+		modal.style.display = 'block'
+		const
 		// add task
 	});
 
@@ -191,22 +254,6 @@ function initUI() {
 	rightCol.appendChild(addTaskButton);
 
 	return main;
-}
-
-// Creates modal which collects data for the creation of a new project
-function getProjectInfoModal() {
-	const modalBody = document.createElement('div');
-
-	const form = document.createElement('form');
-
-	const projectName = document.createElement('input');
-	inputName.type = 'text';
-
-	const projectDescription = document.createElement('input');
-	inputName.type = 'text';
-
-	const submitBtn = document.createElement('button');
-	submitBtn.textContent = 'Create';
 }
 
 function createTaskContainer() {
