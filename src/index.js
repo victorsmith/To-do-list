@@ -1,5 +1,6 @@
 import './style.css';
 
+
 function component() {
 	const main = document.createElement('div');
 	main.id = 'main';
@@ -97,9 +98,10 @@ function addTask() {
 	form.appendChild(inputName);
 	form.appendChild(inputDate);
 	form.appendChild(submitBtn);
-	form.appendChild(cancelBtn);
+	// form.appendChild(cancelBtn);
 
 	taskContainer.appendChild(form);
+	taskContainer.appendChild(cancelBtn);
 	console.log('Function2');
 
 	taskTable.appendChild(taskContainer);
