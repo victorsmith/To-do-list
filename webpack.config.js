@@ -5,8 +5,8 @@ module.exports = {
 	mode: 'development',
 	entry: {
 		index: './src/index.js',
-		projectModel: './src/projectModel.js',
-	    todoModel: './src/todoModel.js',
+		projectModel: './src/Project.js',
+	    todoModel: './src/Task.js',
 	},
 	devtool: 'inline-source-map',
 	devServer: {
