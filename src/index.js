@@ -42,25 +42,28 @@ newProject.addTask(exampleTask3);
 projects.push(newProject);
 document.body.appendChild(initUI());
 
+// Global UI Components
+const projectTable = document.getElementById('projects');
+const addProjectButton = document.getElementById('addTask');
+const taskTable = document.getElementById('tasks');
+const addTaskButton = document.getElementById('addTask');
+
 function updateUI() {
 	projects.forEach((project) => {
 		// 1) create container for each project
 		// 2) populate container with project attribute values
-		// 3) publish to DOM
-		createProjectContainer(project);
+		// 3) publish to projectTable
+		projectTable.appendChild(createProjectContainer(project));
 
 		project.tasks.forEach((task) => {
 			// 1) create container for each task
 			// 2) populate container with task attribute values
-			// 3) publish to DOM
+			// 3) publish to taskTable 
+			taskTable.appendChild(createTaskContainer(task));
 		});
 	});
 }
-const projectTable = document.getElementById('projects');
-const addProjectButton = document.getElementById('addTask');
 
-const taskTable = document.getElementById('tasks');
-const addTaskButton = document.getElementById('addTask');
 
 
 // Create project container
