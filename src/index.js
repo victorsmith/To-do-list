@@ -75,8 +75,6 @@ function initUI() {
 	projects.id = 'projects';
 	leftCol.appendChild(projects);
 
-	
-
 	const addProjectButton = document.createElement('button');
 	addProjectButton.classList.add('major');
 	addProjectButton.textContent = 'Add Project';
@@ -104,10 +102,12 @@ function initUI() {
 	addTaskButton.id = 'addTask';
 	addTaskButton.textContent = 'Add Task';
 	addTaskButton.addEventListener('click', () => {
+		
 		addTaskButton.hidden = true;
+		taskTable.appendChild(createTaskContainerForm());
 		// add task
 		console.log('Event');
-		addTask();
+		// addTask();
 	});
 
 	rightCol.appendChild(addTaskButton);
@@ -151,17 +151,36 @@ function createProjectContainer(project) {
 	return projectContainer;
 }
 
+// const task = new Task()
 
-function createTaskContainer(task) {
+function createTaskContainer(taskObject) {
+	const taskContainer = document.createElement('div');
+	taskContainer.classList.add('taskContainer')
 
+	const taskTitle = document.createElement('div');
+	taskTitle.textContent = taskObject.title;
+
+	const taskDate = document.createElement('div');
+	taskDate.textContent = taskObject.dueDate;
+
+	const taskDone = document.createElement('input');
+	taskDone.type = 'checkbox';
+
+	taskContainer.appendChild(taskTitle);
+	taskContainer.appendChild(taskDate);
+	taskContainer.appendChild(taskDone);
+
+	return taskContainer;
+}
+
+function createTaskContainerForm(task) {
 	const taskContainer = document.createElement('div');
 	taskContainer.classList.add('taskContainer');
-
+		
+	// const form = document.createElement('form');
 	// Task form
-	const form = document.createElement('form');
 	const inputName = document.createElement('input');
 	inputName.placeholder = 'Enter project name here';
-
 	inputName.type = 'text';
 
 	const inputDate = document.createElement('input');
@@ -172,45 +191,29 @@ function createTaskContainer(task) {
 
 	submitBtn.textContent = 'Submit';
 	submitBtn.addEventListener('click', () => {
-		taskContainer.innerHTML = '';
-
-		const taskDescription = document.createElement('div');
-		taskDescription.textContent = inputName.value;
-
-		const taskDate = document.createElement('div');
-		taskDate.textContent = inputDate.value;
-
-		const taskDone = document.createElement('input');
-		taskDone.type = 'checkbox';
-
-		taskContainer.appendChild(taskDescription);
-		taskContainer.appendChild(taskDate);
-		taskContainer.appendChild(taskDone);
-
+		// taskContainer.innerHTML = '';
+		const newTask = new Task(inputName.value, inputName.value, inputDate.value);
+		projects[currentProjectIndex].tasks.push(newTask);
 		addTaskButton.hidden = false;
 
-		return;
+		updateUI()
+		// return;
 	});
 
+	
 	const cancelBtn = document.createElement('button');
 	cancelBtn.classList.add('minor');
-
 	cancelBtn.textContent = 'Cancel';
 	cancelBtn.addEventListener('click', () => {
-		addButton.hidden = false;
+		addTaskButton.hidden = false;
 	});
 
-	form.appendChild(inputName);
-	form.appendChild(inputDate);
-	form.appendChild(submitBtn);
-	// form.appendChild(cancelBtn);
-
-	taskContainer.appendChild(form);
+	taskContainer.appendChild(inputName);
+	taskContainer.appendChild(inputDate);
+	taskContainer.appendChild(submitBtn);
 	taskContainer.appendChild(cancelBtn);
-	 
-	// Which is the better way? a) return taskContainer OR publish directly from this function
-	// taskTable.appendChild(taskContainer); 
 	return taskContainer;
+
 }
 
 // Creates modal which collects data for the creation of a new project
@@ -268,7 +271,7 @@ function createModal() {
 	
 	modalBody.appendChild(cancelBtn);
 	modal.appendChild(modalBody);
-	
+
 	return modal;
 }
 
@@ -298,7 +301,7 @@ function createModal() {
 
 // UI Function
 function addTask() {
-	console.log('Function');
+	console.log('FunctionHHH');
 
 	const taskTable = document.getElementById('tasks');
 	const addButton = document.getElementById('addTask');
