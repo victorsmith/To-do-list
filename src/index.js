@@ -2,50 +2,61 @@ import './style.css';
 import Task from './Task.js';
 import Project from './Project';
 
-// let projects = [];
+let projects = [];
+let currentProjectIndex = 0;
 
-// const newProject = new Project(
-// 	'Example Project',
-// 	'A Project Showcasing the layout of todo.io'
-// );
+const newProject = new Project(
+	'Example Project',
+	'A Project Showcasing the layout of todo.io'
+);
 
-// const exampleTask0 = new Task(
-// 	'Laundry',
-// 	'Clean up your nasty clothes.',
-// 	new Date('2015-03-01'),
-// 	'High'
-// );
-// const exampleTask1 = new Task(
-// 	'Gym',
-// 	"Lift some heavy stuff every now and then so you don't die at 28",
-// 	new Date('2015-03-25'),
-// 	'High'
-// );
-// const exampleTask2 = new Task(
-// 	'Finish the Odin Project',
-// 	'Finish the wonderful Odin Project before April 2022',
-// 	new Date('2022-04-30'),
-// 	'High'
-// );
-// const exampleTask3 = new Task(
-// 	'Finish One Piece',
-// 	'Finish the anime One Piece before the end of 2022',
-// 	new Date('2023-01-01'),
-// 	'Medium'
-// );
+const exampleTask0 = new Task(
+	'Laundry',
+	'Clean up your nasty clothes.',
+	new Date('2015-03-01'),
+	'High'
+);
+const exampleTask1 = new Task(
+	'Gym',
+	"Lift some heavy stuff every now and then so you don't die at 28",
+	new Date('2015-03-25'),
+	'High'
+);
+const exampleTask2 = new Task(
+	'Finish the Odin Project',
+	'Finish the wonderful Odin Project before April 2022',
+	new Date('2022-04-30'),
+	'High'
+);
+const exampleTask3 = new Task(
+	'Finish One Piece',
+	'Finish the anime One Piece before the end of 2022',
+	new Date('2023-01-01'),
+	'Medium'
+);
 
-// newProject.addTask(exampleTask0);
-// newProject.addTask(exampleTask1);
-// newProject.addTask(exampleTask2);
-// newProject.addTask(exampleTask3);
+newProject.addTask(exampleTask0);
+newProject.addTask(exampleTask1);
+newProject.addTask(exampleTask2);
+newProject.addTask(exampleTask3);
 
-// projects.push(newProject);
+projects.push(newProject);
+
+// const test = initUI()
+// console.log(typeof test);
+document.body.appendChild(initUI());
 
 // Global UI Components
 const projectTable = document.getElementById('projects');
-const addProjectButton = document.getElementById('addTask');
 const taskTable = document.getElementById('tasks');
+const addProjectButton = document.getElementById('addTask');
 const addTaskButton = document.getElementById('addTask');
+
+const modal = createModal(); 
+document.body.appendChild(modal);
+
+updateUI()
+
 
 function initUI() {
 	const main = document.createElement('div');
@@ -64,14 +75,13 @@ function initUI() {
 	projects.id = 'projects';
 	leftCol.appendChild(projects);
 
-	const modal = createModal();
+	
 
 	const addProjectButton = document.createElement('button');
+	addProjectButton.classList.add('major');
 	addProjectButton.textContent = 'Add Project';
 	addProjectButton.addEventListener('click', () => {
-		addProjectButton.hidden = true;
 		modal.style.display = 'block';
-		// add task
 	});
 
 	leftCol.appendChild(addProjectButton);
@@ -90,6 +100,7 @@ function initUI() {
 	rightCol.appendChild(tasks);
 
 	const addTaskButton = document.createElement('button');
+	addTaskButton.classList.add('major');
 	addTaskButton.id = 'addTask';
 	addTaskButton.textContent = 'Add Task';
 	addTaskButton.addEventListener('click', () => {
@@ -100,26 +111,29 @@ function initUI() {
 	});
 
 	rightCol.appendChild(addTaskButton);
-	
-	console.log('initUI');
 	return main;
 }
-document.body.appendChild(initUI());
+
 
 
 function updateUI() {
-	projects.forEach((project) => {
-		// 1) create container for each project
-		// 2) populate container with project attribute values
-		// 3) publish to projectTable
-		projectTable.appendChild(createProjectContainer(project));
+	// reset table
+	projectTable.innerHTML = '';
+	taskTable.innerHTML = '';
 
-		project.tasks.forEach((task) => {
-			// 1) create container for each task
-			// 2) populate container with task attribute values
-			// 3) publish to taskTable 
-			taskTable.appendChild(createTaskContainer(task));
-		});
+	// 1) create container for each project
+	// 2) populate container with project attribute values
+	// 3) publish to projectTable
+	projects.forEach((project) => {
+		const projectCont = createProjectContainer(project);
+		projectTable.appendChild(projectCont);
+	});
+
+	// 1) create container for each task
+	// 2) populate container with task attribute values
+	// 3) publish to taskTable
+	projects[currentProjectIndex].tasks.forEach((task) => {
+		taskTable.appendChild(createTaskContainer(task));
 	});
 }
 
@@ -127,14 +141,13 @@ function updateUI() {
 function createProjectContainer(project) {
 	const projectContainer = document.createElement('div');
 	projectContainer.classList.add('projectContainer');
-
-	const projectName = document.createElement('input');
-	projectName.type = 'text';
+	
+	const projectName = document.createElement('h3');
 	projectName.textContent = project.name;
-
+	
 	projectContainer.appendChild(projectName);
-
-	// projectTable.appendChild(projectContainer); ??
+	console.log(projectContainer);
+	
 	return projectContainer;
 }
 
@@ -147,12 +160,16 @@ function createTaskContainer(task) {
 	// Task form
 	const form = document.createElement('form');
 	const inputName = document.createElement('input');
+	inputName.placeholder = 'Enter project name here';
+
 	inputName.type = 'text';
 
 	const inputDate = document.createElement('input');
 	inputDate.type = 'date';
 
 	const submitBtn = document.createElement('button');
+	submitBtn.classList.add('minor');
+
 	submitBtn.textContent = 'Submit';
 	submitBtn.addEventListener('click', () => {
 		taskContainer.innerHTML = '';
@@ -176,6 +193,8 @@ function createTaskContainer(task) {
 	});
 
 	const cancelBtn = document.createElement('button');
+	cancelBtn.classList.add('minor');
+
 	cancelBtn.textContent = 'Cancel';
 	cancelBtn.addEventListener('click', () => {
 		addButton.hidden = false;
@@ -200,35 +219,56 @@ function createModal() {
 	modal.classList.add('modal-background');
 
 	const modalBody = document.createElement('div');
-	modalBody.classList.add('modal');
+	modalBody.classList.add('modal-content');
 
 	const closeButton = document.createElement('span');
+	closeButton.textContent = 'x'
 	closeButton.classList.add('close');
+	closeButton.addEventListener('click', () => {
+		modal.style.display = 'none';
+		projectNameInput.value = '';
+		projectDescriptionInput.value = '';
+	} )
+	modalBody.appendChild(closeButton);
 	
-	// Form for project creation modal
-	const form = document.createElement('form');
+	const modalHeader = document.createElement('h1');
+	modalHeader.textContent = 'Create a Project';
+	modalBody.appendChild(modalHeader);
+
+	// // Form for project creation modal
+	// const form = document.createElement('form');
 	
 	const projectNameInput = document.createElement('input');
 	projectNameInput.id = 'projectNameField';
 	projectNameInput.type = 'text';
-	form.appendChild(projectNameInput);
+	projectNameInput.placeholder = 'Project Name';
+	modalBody.appendChild(projectNameInput);
 	
 	const projectDescriptionInput = document.createElement('input');
 	projectDescriptionInput.id = 'projectDescription';
 	projectDescriptionInput.type = 'text';
-	form.appendChild(projectDescriptionInput);
+	projectDescriptionInput.placeholder = 'Project Description';
+	modalBody.appendChild(projectDescriptionInput);
 	
 	const submitBtn = document.createElement('button');
+	submitBtn.classList.add('minor');
+
 	submitBtn.textContent = 'Create';
-	form.appendChild(submitBtn);
+	submitBtn.addEventListener('click', () => {
+		const newProject = new Project(projectNameInput.value, projectDescriptionInput.value);
+		projects.push(newProject);
+		updateUI();
+		modal.style.display = 'none';
+	})
+	modalBody.appendChild(submitBtn);
 	
 	const cancelBtn = document.createElement('button');
+	cancelBtn.classList.add('minor');
 	cancelBtn.textContent = 'Cancel';
-	form.appendChild(cancelBtn);
 	
-	modalBody.appendChild(closeButton);
+	modalBody.appendChild(cancelBtn);
 	modal.appendChild(modalBody);
-
+	
 	return modal;
 }
 
@@ -254,11 +294,7 @@ function createModal() {
 
 
 
-
 // -- Not done are below this line
-
-
-
 
 // UI Function
 function addTask() {
